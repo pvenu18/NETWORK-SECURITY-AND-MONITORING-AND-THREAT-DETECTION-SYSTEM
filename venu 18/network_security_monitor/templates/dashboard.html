@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="welcome-row">
+  <div><h2>Security overview</h2><p>Monitor traffic patterns and review detection indicators from stored records.</p></div>
+  <a class="button button-primary" href="{{ url_for('page', page_name='monitoring') }}">Run traffic simulation <span aria-hidden="true">→</span></a>
+</div>
+<section class="stat-grid" aria-label="Network monitoring statistics">
+  <article class="stat-card"><div class="stat-top"><span>Total connections</span><span class="stat-icon blue">↗</span></div><strong id="stat-connections">—</strong><small>Traffic records stored</small></article>
+  <article class="stat-card"><div class="stat-top"><span>Suspicious activity</span><span class="stat-icon amber">!</span></div><strong id="stat-suspicious">—</strong><small>Blocked traffic records</small></article>
+  <article class="stat-card"><div class="stat-top"><span>Security alerts</span><span class="stat-icon red">⌁</span></div><strong id="stat-alerts">—</strong><small><b id="stat-open-alerts">—</b> open for review</small></article>
+  <article class="stat-card"><div class="stat-top"><span>Normal traffic</span><span class="stat-icon green">✓</span></div><strong id="stat-normal">—</strong><small>Allowed traffic records</small></article>
+</section>
+<section class="content-grid dashboard-grid">
+  <article class="panel chart-panel">
+    <div class="panel-heading"><div><h3>Traffic activity</h3><p>Records per hour, based on stored traffic logs</p></div><span class="panel-badge">HOURLY</span></div>
+    <div class="chart-wrap"><canvas id="trafficTrendChart" aria-label="Hourly traffic chart"></canvas></div>
+  </article>
+  <article class="panel chart-panel">
+    <div class="panel-heading"><div><h3>Protocol distribution</h3><p>Traffic records by protocol</p></div><span class="panel-badge">ALL RECORDS</span></div>
+    <div class="chart-wrap chart-wrap-doughnut"><canvas id="protocolChart" aria-label="Traffic protocols chart"></canvas></div>
+  </article>
+</section>
+<section class="content-grid bottom-grid">
+  <article class="panel">
+    <div class="panel-heading"><div><h3>Recent security alerts</h3><p>Latest rule-based findings for analyst review</p></div><a class="text-link" href="{{ url_for('page', page_name='alerts') }}">View all →</a></div>
+    <div class="table-wrap"><table><thead><tr><th>Severity</th><th>Detection</th><th>Source</th><th>Time (UTC)</th></tr></thead><tbody id="recent-alerts"><tr><td colspan="4" class="empty-cell">Loading alert records…</td></tr></tbody></table></div>
+  </article>
+  <article class="panel system-panel">
+    <div class="panel-heading"><div><h3>Monitoring status</h3><p>Input source and model status</p></div></div>
+    <div class="system-status"><span class="online-dot"></span><div><strong id="monitoring-status">Ready</strong><small id="monitoring-source">No recent session</small></div></div>
+    <div class="metric-line"><span>ML anomalies flagged</span><strong id="stat-anomalies">—</strong></div>
+    <div class="metric-line"><span>Records evaluated by model</span><strong id="stat-model-records">—</strong></div>
+    <p class="disclaimer">Detection rules and model anomalies are indicators for investigation, not proof of an attack.</p>
+  </article>
+</section>
+{% endblock %}

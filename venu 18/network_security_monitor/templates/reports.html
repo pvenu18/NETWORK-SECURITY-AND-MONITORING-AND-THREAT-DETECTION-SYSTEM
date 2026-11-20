@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="welcome-row"><div><h2>Reports &amp; exports</h2><p>Download the traffic records and a concise monitoring summary from the SQLite database.</p></div></div>
+<section class="content-grid report-grid">
+  <article class="panel report-card"><div class="report-symbol">CSV</div><div><h3>Network traffic export</h3><p>Export timestamps, endpoints, destination ports, protocol, byte count, and action for all stored traffic records.</p><a class="button button-primary" href="{{ url_for('export_csv') }}">Download traffic CSV</a></div></article>
+  <article class="panel report-card"><div class="report-symbol report-symbol-green">TXT</div><div><h3>Security summary</h3><p>Download a brief report with traffic totals, alert count, generation time, and prototype limitations.</p><a class="button button-secondary" href="{{ url_for('download_report') }}">Download summary</a></div></article>
+</section>
+<article class="panel report-note"><h3>Report interpretation</h3><p>Traffic data is synthetic or imported from a locally supplied, authorized file. Alerts and anomaly flags are indicators for investigation and should be validated against operational context.</p></article>
+{% endblock %}

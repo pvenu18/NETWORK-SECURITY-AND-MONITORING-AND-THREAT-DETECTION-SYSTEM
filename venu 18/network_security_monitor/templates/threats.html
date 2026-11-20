@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="welcome-row"><div><h2>Detection workbench</h2><p>Run explainable traffic rules automatically on each input batch, or optionally score stored records with Isolation Forest.</p></div><button class="button button-primary" id="run-anomaly-button">Run anomaly model</button></div>
+<section class="content-grid threat-intro-grid">
+  <article class="panel rule-card"><span class="rule-number">RULE 01</span><h3>Potential port scan</h3><p>Flags a source contacting many unique destination ports within a rolling time window.</p><span class="severity severity-medium">MEDIUM</span></article>
+  <article class="panel rule-card"><span class="rule-number">RULE 02</span><h3>Connection frequency</h3><p>Flags a high count of source connection records within the configured time window.</p><span class="severity severity-medium">MEDIUM</span></article>
+  <article class="panel rule-card"><span class="rule-number">RULE 03</span><h3>Volume &amp; sensitive ports</h3><p>Highlights records over the byte threshold and review of ports 23 or 3389.</p><span class="severity severity-low">LOW / REVIEW</span></article>
+</section>
+<article class="panel model-panel">
+  <div class="panel-heading"><div><span class="section-kicker">OPTIONAL MACHINE LEARNING</span><h3>Isolation Forest results</h3><p>Model output is a triage signal, not a verdict about malicious activity.</p></div><span class="panel-badge">SCIKIT-LEARN</span></div>
+  <div class="model-stats"><div><span>Potential anomalies</span><strong id="stat-anomalies">—</strong></div><div><span>Records scored</span><strong id="stat-model-records">—</strong></div><div><span>Latest result</span><strong id="model-latest">Not run</strong></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Result time</th><th>Source</th><th>Destination</th><th>Port</th><th>Model score</th><th>Assessment</th></tr></thead><tbody id="model-results">
+  {% for result in detection_results %}
+    <tr><td>{{ result.detected_at }}</td><td>{{ result.src_ip }}</td><td>{{ result.dst_ip }}</td><td>{{ result.dst_port }}</td><td>{{ "%.4f"|format(result.anomaly_score) }}</td><td>{% if result.is_anomaly %}<span class="severity severity-medium">Potential anomaly</span>{% else %}<span class="severity severity-low">Baseline-like</span>{% endif %}</td></tr>
+  {% else %}<tr><td colspan="6" class="empty-cell">Run the optional model to populate detection results.</td></tr>{% endfor %}
+  </tbody></table></div>
+</article>
+{% endblock %}

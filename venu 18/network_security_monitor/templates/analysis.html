@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="welcome-row"><div><h2>Traffic analysis</h2><p>Charts are computed from records currently stored in the application database.</p></div><span class="panel-badge">PANDAS AGGREGATIONS</span></div>
+<section class="stat-grid compact-stats">
+  <article class="stat-card"><div class="stat-top"><span>Total traffic volume</span><span class="stat-icon blue">◌</span></div><strong id="traffic-bytes">—</strong><small>Bytes across stored records</small></article>
+  <article class="stat-card"><div class="stat-top"><span>TCP records</span><span class="stat-icon blue">T</span></div><strong id="protocol-tcp">—</strong><small>Transport protocol count</small></article>
+  <article class="stat-card"><div class="stat-top"><span>UDP records</span><span class="stat-icon green">U</span></div><strong id="protocol-udp">—</strong><small>Transport protocol count</small></article>
+  <article class="stat-card"><div class="stat-top"><span>ICMP records</span><span class="stat-icon amber">I</span></div><strong id="protocol-icmp">—</strong><small>Network control protocol count</small></article>
+</section>
+<section class="content-grid dashboard-grid">
+  <article class="panel chart-panel"><div class="panel-heading"><div><h3>Hourly traffic</h3><p>Latest 24 hours represented in stored log records</p></div></div><div class="chart-wrap chart-wrap-large"><canvas id="trafficTrendChart"></canvas></div></article>
+  <article class="panel chart-panel"><div class="panel-heading"><div><h3>Protocol mix</h3><p>TCP, UDP, and ICMP event counts</p></div></div><div class="chart-wrap chart-wrap-doughnut"><canvas id="protocolChart"></canvas></div></article>
+</section>
+<article class="panel"><div class="panel-heading"><div><h3>Daily traffic totals</h3><p>Most recent 14 calendar days represented in stored records</p></div></div><div class="chart-wrap chart-wrap-large"><canvas id="dailyTrafficChart"></canvas></div></article>
+<p class="disclaimer standalone-disclaimer">Charts summarize available records; this prototype does not claim continuous real-time network visibility.</p>
+{% endblock %}

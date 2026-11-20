@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="welcome-row"><div><h2>Traffic inputs</h2><p>Generate synthetic activity or analyze a local, authorized traffic file. No live packet capture is started.</p></div><span class="status-chip"><i></i> NO LIVE CAPTURE</span></div>
+<section class="content-grid input-grid">
+  <article class="panel action-panel">
+    <div class="panel-heading"><div><span class="section-kicker">01 / SAFE DEMO</span><h3>Simulated traffic</h3><p>Generate a synthetic batch using documentation-only IP addresses.</p></div></div>
+    <label class="field-label" for="simulation-count">Number of traffic records</label>
+    <div class="inline-form"><input id="simulation-count" type="number" min="8" max="500" value="24"><button id="simulate-button" class="button button-primary">Generate &amp; analyze</button></div>
+    <p class="helper-text">The demo batch includes normal flows and a known test pattern to exercise alert rules.</p>
+  </article>
+  <article class="panel action-panel">
+    <div class="panel-heading"><div><span class="section-kicker">02 / OFFLINE IMPORT</span><h3>Firewall traffic CSV</h3><p>Import a validated CSV export from an environment you are authorized to monitor.</p></div></div>
+    <form id="csv-import-form" class="upload-form">
+      <input type="file" id="csv-file" name="file" accept=".csv,text/csv" required>
+      <button class="button button-secondary" type="submit">Analyze CSV</button>
+    </form>
+    <p class="helper-text">Required fields: timestamp, src_ip, dst_ip, dst_port, protocol, bytes, action.</p>
+  </article>
+  <article class="panel action-panel full-width">
+    <div class="panel-heading"><div><span class="section-kicker">03 / AUTHORIZED PCAP ONLY</span><h3>Offline packet capture import</h3><p>Scapy parses a local classic PCAP file; this feature never opens a network socket.</p></div></div>
+    <form id="pcap-import-form" class="upload-form upload-form-pcap">
+      <input type="file" id="pcap-file" name="file" accept=".pcap,application/vnd.tcpdump.pcap" required>
+      <label class="check-label"><input type="checkbox" name="authorized" value="yes" required> I am authorized to analyze this capture.</label>
+      <button class="button button-secondary" type="submit">Import authorized PCAP</button>
+    </form>
+    <p class="helper-text">Upload limit: 15 MB. Requires Scapy; captures remain local to this application.</p>
+  </article>
+</section>
+<article class="panel table-panel">
+  <div class="panel-heading"><div><h3>Recent network traffic</h3><p>Latest stored records, including imported and simulated data</p></div><button class="button button-quiet" id="refresh-traffic">Refresh</button></div>
+  <div class="table-wrap"><table><thead><tr><th>Timestamp (UTC)</th><th>Source IP</th><th>Destination IP</th><th>Port</th><th>Protocol</th><th>Bytes</th><th>Action</th></tr></thead><tbody id="traffic-table"><tr><td colspan="7" class="empty-cell">Loading traffic records…</td></tr></tbody></table></div>
+</article>
+{% endblock %}

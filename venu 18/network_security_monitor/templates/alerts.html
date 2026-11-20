@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="welcome-row"><div><h2>Alert history</h2><p>Review and update the status of generated rule-based security alerts.</p></div><span class="panel-badge">{{ alerts|length }} SHOWN</span></div>
+<article class="panel table-panel">
+  <div class="table-wrap"><table><thead><tr><th>Severity</th><th>Category / evidence</th><th>Source → destination</th><th>Detected (UTC)</th><th>Status</th></tr></thead><tbody id="alerts-table">
+  {% for alert in alerts %}
+    <tr>
+      <td><span class="severity severity-{{ alert.severity|lower }}">{{ alert.severity }}</span></td>
+      <td><strong>{{ alert.category }}</strong><small class="table-subtext">{{ alert.description }}<br>{{ alert.evidence }}</small></td>
+      <td>{{ alert.src_ip }}<small class="table-subtext">→ {{ alert.dst_ip }}</small></td>
+      <td>{{ alert.timestamp }}</td>
+      <td><select class="status-select" data-alert-id="{{ alert.id }}" aria-label="Update alert status"><option {% if alert.status == 'Open' %}selected{% endif %}>Open</option><option {% if alert.status == 'Investigating' %}selected{% endif %}>Investigating</option><option {% if alert.status == 'Resolved' %}selected{% endif %}>Resolved</option></select></td>
+    </tr>
+  {% else %}<tr><td colspan="5" class="empty-cell">No alerts stored yet. Run a simulation to exercise detection rules.</td></tr>{% endfor %}
+  </tbody></table></div>
+</article>
+<p class="disclaimer standalone-disclaimer">Alert severity prioritizes analyst review. A rule match does not establish attacker intent.</p>
+{% endblock %}

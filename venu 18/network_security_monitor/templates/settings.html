@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="welcome-row"><div><h2>Detection settings</h2><p>Adjust defensive rules for new traffic batches. Values are validated and saved in SQLite.</p></div></div>
+<article class="panel settings-panel">
+  <form id="settings-form" class="settings-form">
+    <label>Rolling window (minutes)<small>How far back rule counts are evaluated.</small><input type="number" name="window_minutes" min="1" max="60" value="{{ settings.window_minutes }}" required></label>
+    <label>Unique ports for port-scan indicator<small>Distinct destination ports in the rolling window.</small><input type="number" name="port_scan_threshold" min="2" max="100" value="{{ settings.port_scan_threshold }}" required></label>
+    <label>Connection frequency threshold<small>Records from one source in the rolling window.</small><input type="number" name="repeat_connection_threshold" min="2" max="500" value="{{ settings.repeat_connection_threshold }}" required></label>
+    <label>High traffic volume (bytes)<small>Single-record byte count that triggers a review indicator.</small><input type="number" name="high_volume_bytes" min="1024" max="1000000000" value="{{ settings.high_volume_bytes }}" required></label>
+    <div class="settings-actions"><button class="button button-primary" type="submit">Save detection settings</button><span class="helper-text">These heuristics may generate false positives or miss activity.</span></div>
+  </form>
+</article>
+{% endblock %}
